@@ -90,7 +90,7 @@ app.get("/api/hotels", (req, res) => {
 app.use("/api", (_req, res) => res.status(404).json({ error: "Route API introuvable." }));
 
 app.get("*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 app.listen(PORT, () => {
