@@ -125,11 +125,15 @@ app.post("/api/search", async (req, res) => {
       timetableMessage = trainConnections.length
         ? "Horaires issus de l'API des transports publics suisses. Vérifiez les détails avant le départ."
         : "Aucune correspondance trouvée par l'API suisse pour ces critères. Essayez les noms exacts des gares.";
-    } catch (_error) {
-      timetableStatus = "unavailable";
-      timetableMessage = "Impossible de récupérer les horaires suisses pour le moment. Vous pouvez consulter les opérateurs ci-dessous.";
-    }
-  }
+    } catch (error) {
+  console.error("Erreur API transport suisse :", error);
+
+  timetableStatus = "unavailable";
+  timetableMessage =
+    "Erreur technique : " +
+    (error?.message || "cause inconnue") +
+    ". Vous pouvez consulter les opérateurs ci-dessous.";
+}
 
   res.json({
     query: { from, to, date, formattedDate, mode },
