@@ -93,6 +93,4 @@ app.get("*", (_req, res) => {
   res.sendFile(path.join(__dirname, "../index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`HelvetiGo prêt sur http://localhost:${PORT}`);
-});
+export default app;
