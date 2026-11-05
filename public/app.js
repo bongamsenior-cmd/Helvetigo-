@@ -61,6 +61,7 @@ const translations = {
 
 const languageMeta = {fr:"🇫🇷 FR",en:"🇬🇧 EN",de:"🇩🇪 DE",it:"🇮🇹 IT",ja:"🇯🇵 JA"};
 let currentLang = localStorage.getItem("teyunai-language") || "fr";
+let lastSearchData = null;
 if (!translations[currentLang]) currentLang = "fr";
 const t = key => translations[currentLang][key] || translations.fr[key] || key;
 
@@ -89,7 +90,9 @@ languageToggle.addEventListener("click", () => {
 });
 $$("[data-lang]").forEach(button => button.addEventListener("click", () => {
   applyLanguage(button.dataset.lang);
-  if (!results.hidden) results.dataset.langChanged = "true";
+  if (lastSearchData && !results.hidden) {
+    results.innerHTML = renderSearchResults(lastSearchData);
+  }
 }));
 document.addEventListener("click", event => {
   if (!event.target.closest(".language-selector")) {
@@ -158,8 +161,17 @@ function renderProviders(providers) {
   if (!providers?.length) return `<p>${t("no_providers")}</p>`;
   return `<section class="operator-links"><h3>${t("operators")}</h3><div class="result-links">${providers.map(provider => `<a href="${escapeHtml(provider.bookingUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(provider.name)} ↗</a>`).join("")}</div></section>`;
 }
+function renderSearchResults(data) {
+  return `<h3>${escapeHtml(data.query.from)} → ${escapeHtml(data.query.to)}</h3>
+  <p><strong>${t("date_word")} :</strong> ${escapeHtml(data.query.formattedDate)} ·
+  <strong>${t("category")} :</strong> ${escapeHtml(data.query.mode)}</p>
+  <p>${escapeHtml(data.message)}</p>
+  ${renderConnections(data.trainConnections || [])}
+  ${renderProviders(data.results || [])}`;
+}
 form.addEventListener("submit", async event => {
   event.preventDefault();
+  lastSearchData = null;
   const button = $(".search-button", form);
   const payload = {from:$("#from").value.trim(),to:$("#to").value.trim(),date:dateInput.value,mode:$("#mode").value};
   results.hidden = false;
@@ -170,7 +182,8 @@ form.addEventListener("submit", async event => {
     const response = await fetch("/api/search", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || t("search_error"));
-    results.innerHTML = `<h3>${escapeHtml(data.query.from)} → ${escapeHtml(data.query.to)}</h3><p><strong>${t("date_word")} :</strong> ${escapeHtml(data.query.formattedDate)} · <strong>${t("category")} :</strong> ${escapeHtml(data.query.mode)}</p><p>${escapeHtml(data.message)}</p>${renderConnections(data.trainConnections || [])}${renderProviders(data.results || [])}`;
+    lastSearchData = data;
+results.innerHTML = renderSearchResults(data);
     results.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",block:"nearest"});
   } catch (error) {
     results.innerHTML = `<h3>${t("search_error")}</h3><p class="api-error">${escapeHtml(error.message)} ${t("retry")}</p>`;
