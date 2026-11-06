@@ -1,0 +1,67 @@
+/* TEYUNAI — combined final clock finish, motion and size */
+.teyunai-clock{
+  position:absolute!important;
+  z-index:20!important;
+  right:22px!important;
+  top:-174px!important;
+  left:auto!important;
+  width:36px!important;
+  height:36px!important;
+  background:transparent!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+}
+.teyunai-clock-face{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+  border:0!important;
+  outline:0!important;
+  border-radius:50%!important;
+  background:#f8f6f1!important;
+  box-shadow:none!important;
+}
+.teyunai-clock-face::before,
+.teyunai-clock-face::after{content:none!important;display:none!important}
+.teyunai-clock-ticks span{
+  width:1px!important;
+  background:#111!important;
+}
+.teyunai-clock-ticks span.major{width:1.5px!important}
+.teyunai-clock-face .ty-hour{
+  width:2.4px!important;
+  background:#111!important;
+}
+.teyunai-clock-face .ty-minute{
+  width:1.7px!important;
+  background:#111!important;
+}
+.teyunai-clock-face .ty-second{
+  width:1px!important;
+  background:#df2633!important;
+  transform:translateX(-50%) rotate(0deg);
+  transform-origin:50% 100%!important;
+  animation:teyunai-second-sweep 60s linear infinite!important;
+  will-change:transform;
+}
+.teyunai-clock-face b{
+  width:4px!important;
+  height:4px!important;
+  background:#df2633!important;
+}
+@keyframes teyunai-second-sweep{
+  from{transform:translateX(-50%) rotate(0deg)}
+  to{transform:translateX(-50%) rotate(360deg)}
+}
+@media(max-width:760px){
+  .teyunai-clock{
+    right:18px!important;
+    top:-142px!important;
+    width:29.3px!important;
+    height:29.3px!important;
+  }
+}
