@@ -302,4 +302,4 @@ form.addEventListener("submit", async event => {
     button.disabled = false;
     button.innerHTML = `<span aria-hidden="true">⌕</span><span data-i18n="search">${t("search")}</span>`;
   }
-});
+})
