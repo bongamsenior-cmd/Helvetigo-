@@ -621,3 +621,13 @@ footer.footer.teyunai-art-footer span {
     height: 29.3px !important;
   }
 }
+/* TEYUNAI — keep the clock visible above the footer */
+footer.footer.teyunai-art-footer {
+  position: relative !important;
+  z-index: 30 !important;
+  overflow: visible !important;
+}
+
+footer.footer.teyunai-art-footer .teyunai-clock {
+  z-index: 31 !important;
+}
