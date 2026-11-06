@@ -1,5 +1,5 @@
 
-/* TEYUNAI — Elegant, visible footer artwork emergence */
+/* TEYUNAI — Deep cinematic artwork emergence */
 (() => {
   function initTeyunaiReveal() {
     const footer = document.querySelector("footer.footer");
@@ -49,12 +49,17 @@
         background-repeat: no-repeat;
 
         opacity: 0;
-        transform: translate3d(0, 120px, 0) scale(.96);
+        transform:
+          perspective(1000px)
+          translate3d(0, 180px, 0)
+          rotateX(11deg)
+          scale(.90);
+
         transform-origin: center bottom;
 
         transition:
-          opacity 1500ms ease-out,
-          transform 1500ms cubic-bezier(.16,1,.3,1);
+          opacity 1600ms ease,
+          transform 1700ms cubic-bezier(.16,1,.3,1);
 
         will-change: opacity, transform;
       }
@@ -62,7 +67,11 @@
       footer.footer.teyunai-art-footer.teyunai-art-visible
       .teyunai-artwork-layer {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform:
+          perspective(1000px)
+          translate3d(0, 0, 0)
+          rotateX(0)
+          scale(1);
       }
 
       footer.footer.teyunai-art-footer >
@@ -78,16 +87,25 @@
       @media (max-width: 760px) {
         footer.footer.teyunai-art-footer .teyunai-artwork-layer {
           background-position: center center;
-          transform: translate3d(0, 90px, 0) scale(.96);
+
+          transform:
+            perspective(900px)
+            translate3d(0, 140px, 0)
+            rotateX(8deg)
+            scale(.92);
 
           transition:
-            opacity 1400ms ease-out,
-            transform 1400ms cubic-bezier(.16,1,.3,1);
+            opacity 1500ms ease,
+            transform 1600ms cubic-bezier(.16,1,.3,1);
         }
 
         footer.footer.teyunai-art-footer.teyunai-art-visible
         .teyunai-artwork-layer {
-          transform: translate3d(0, 0, 0) scale(1);
+          transform:
+            perspective(900px)
+            translate3d(0, 0, 0)
+            rotateX(0)
+            scale(1);
         }
       }
 
@@ -111,13 +129,13 @@
     }
 
     const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           footer.classList.add("teyunai-art-visible");
-          observer.disconnect();
-          break;
+        } else {
+          footer.classList.remove("teyunai-art-visible");
         }
-      }
+      });
     }, {
       threshold: 0.08,
       rootMargin: "0px 0px -8% 0px"
@@ -127,9 +145,11 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initTeyunaiReveal, {
-      once: true
-    });
+    document.addEventListener(
+      "DOMContentLoaded",
+      initTeyunaiReveal,
+      { once: true }
+    );
   } else {
     initTeyunaiReveal();
   }
