@@ -85,4 +85,70 @@ footer.footer.teyunai-art-footer a,footer.footer.teyunai-art-footer p,footer.foo
 .teyunai-clock-face .ty-minute{z-index:4;width:5px;height:36%;background:#101010}
 .teyunai-clock-face .ty-second{z-index:5;width:2px;height:42%;background:#e21c2a}
 .teyunai-clock-face b{position:absolute;z-index:6;left:50%;top:50%;width:11px;height:11px;transform:translate(-50%,-50%);border-radius:50%;background:#e21c2a}
-@media(max-width:760px){footer.footer.teyunai-art-footer{padding-top:220px!important;background-position:center center!important}.teyunai-clock{right:9%;top:14px;width:92px;height:92px}}
+@media(max-width:760px){footer.footer.teyunai-art-footer{padding-top:220px!important;background-position:center center!important}.teyunai-clock{right:9%;top:14px;width:92px;height:/* TEYUNAI — combined final clock finish, motion and size */
+.teyunai-clock{
+  position:absolute!important;
+  z-index:20!important;
+  right:22px!important;
+  top:-174px!important;
+  left:auto!important;
+  width:36px!important;
+  height:36px!important;
+  background:transparent!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+}
+.teyunai-clock-face{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+  border:0!important;
+  outline:0!important;
+  border-radius:50%!important;
+  background:#f8f6f1!important;
+  box-shadow:none!important;
+}
+.teyunai-clock-face::before,
+.teyunai-clock-face::after{content:none!important;display:none!important}
+.teyunai-clock-ticks span{
+  width:1px!important;
+  background:#111!important;
+}
+.teyunai-clock-ticks span.major{width:1.5px!important}
+.teyunai-clock-face .ty-hour{
+  width:2.4px!important;
+  background:#111!important;
+}
+.teyunai-clock-face .ty-minute{
+  width:1.7px!important;
+  background:#111!important;
+}
+.teyunai-clock-face .ty-second{
+  width:1px!important;
+  background:#df2633!important;
+  transform:translateX(-50%) rotate(0deg);
+  transform-origin:50% 100%!important;
+  animation:teyunai-second-sweep 60s linear infinite!important;
+  will-change:transform;
+}
+.teyunai-clock-face b{
+  width:4px!important;
+  height:4px!important;
+  background:#df2633!important;
+}
+@keyframes teyunai-second-sweep{
+  from{transform:translateX(-50%) rotate(0deg)}
+  to{transform:translateX(-50%) rotate(360deg)}
+}
+@media(max-width:760px){
+  .teyunai-clock{
+    right:18px!important;
+    top:-142px!important;
+    width:29.3px!important;
+    height:29.3px!important;
+  }
+}
