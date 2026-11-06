@@ -631,3 +631,85 @@ footer.footer.teyunai-art-footer {
 footer.footer.teyunai-art-footer .teyunai-clock {
   z-index: 31 !important;
 }
+
+/* TEYUNAI — restore visible analogue clock details */
+
+.teyunai-clock {
+  display: block !important;
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.teyunai-clock-face {
+  position: relative !important;
+  display: block !important;
+}
+
+.teyunai-clock-ticks {
+  position: absolute !important;
+  inset: 0 !important;
+}
+
+.teyunai-clock-ticks span {
+  position: absolute !important;
+  display: block !important;
+  left: 50% !important;
+  top: 3% !important;
+  width: 1px !important;
+  height: 7% !important;
+  background: #111 !important;
+  transform-origin: 50% 671% !important;
+}
+
+.teyunai-clock-ticks span.major {
+  top: 2% !important;
+  width: 1.5px !important;
+  height: 12% !important;
+}
+
+.teyunai-clock-face i {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 50% !important;
+  display: block !important;
+  border-radius: 5px !important;
+  transform-origin: 50% 100% !important;
+}
+
+.teyunai-clock-face .ty-hour {
+  width: 2.4px !important;
+  height: 25% !important;
+  background: #111 !important;
+}
+
+.teyunai-clock-face .ty-minute {
+  width: 1.7px !important;
+  height: 36% !important;
+  background: #111 !important;
+}
+
+.teyunai-clock-face .ty-second {
+  width: 1px !important;
+  height: 42% !important;
+  background: #df2633 !important;
+}
+
+.teyunai-clock-face b {
+  position: absolute !important;
+  z-index: 6 !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 4px !important;
+  height: 4px !important;
+  transform: translate(-50%, -50%) !important;
+  border-radius: 50% !important;
+  background: #df2633 !important;
+}
+
+@media (max-width: 760px) {
+  .teyunai-clock {
+    width: 29.3px !important;
+    height: 29.3px !important;
+  }
+}
+
