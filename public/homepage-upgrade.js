@@ -45,9 +45,10 @@
   }
 
   const footer = $("footer.footer");
+  if (footer && !footer.id) footer.id="footer";
   if (footer && !$(".teyunai-signature")) {
     const signature = document.createElement("section");
-    signature.className = "teyunai-signature";
+    signature.className = "teyunai-signature teyunai-signature-circle";
     signature.setAttribute("aria-label", "TEYUNAI signature");
     signature.innerHTML = '<img src="./assets/teyunai-goddess-sisters-travel.png" alt="Les deux déesses sœurs TEYUNAI, la lune, les voyages en avion et en train, et un hôtel">';
     footer.before(signature);
@@ -65,13 +66,34 @@
     nav.append(chip);
   }
 
+  // A compact top-right scrollable discovery menu collects links to lower-page sections.
+  const headerForMenu=$("header");
+  if(headerForMenu && !$("#teyunaiDiscoverMenu")){
+    const menu=document.createElement("div");
+    menu.id="teyunaiDiscoverMenu";
+    menu.className="teyunai-discover-menu";
+    menu.innerHTML=`<button type="button" class="discover-trigger" id="discoverTrigger" aria-expanded="false" aria-controls="discoverPanel"><span>☰</span><span>Discover</span><span class="discover-chevron">⌄</span></button><div class="discover-panel" id="discoverPanel" hidden><a href="#destinations">Discover destinations</a><a href="#transports">Transport options</a><a href="#hotels">Hotels</a><a href="#vtc">Taxis & transfers</a><a href="#how">How TEYUNAI works</a><a href="#footer">Contact & information</a></div>`;
+    headerForMenu.append(menu);
+    const trigger=$("#discoverTrigger"), panel=$("#discoverPanel");
+    trigger.addEventListener("click",()=>{
+      const open=trigger.getAttribute("aria-expanded")!=="true";
+      trigger.setAttribute("aria-expanded",String(open));panel.hidden=!open;
+    });
+    panel.addEventListener("click",event=>{
+      if(event.target.closest("a")){panel.hidden=true;trigger.setAttribute("aria-expanded","false");}
+    });
+    document.addEventListener("click",event=>{
+      if(!menu.contains(event.target)){panel.hidden=true;trigger.setAttribute("aria-expanded","false");}
+    });
+  }
+
   // Dark interactive map sits directly between the search form and search results.
   const formEl = $("#searchForm");
   if (formEl && !$("#teyunaiMapPanel")) {
     const panel = document.createElement("section");
     panel.id = "teyunaiMapPanel";
     panel.className = "teyunai-map-panel container";
-    panel.innerHTML = `<div class="map-topline"><div><p class="eyebrow">${t("map")}</p><h2>Explore with TEYUNAI</h2><p class="map-subtitle">${t("mapNote")}</p></div><span class="map-live"><i></i>${t("live")}</span></div><div class="map-stage"><div id="teyunaiMap" aria-label="${t("map")}"></div><button type="button" class="map-locate" id="mapLocate" aria-label="${t("location")}">⌖ <span>${t("location")}</span></button><div class="teyunai-compass" aria-label="Compass"><span class="compass-n">N</span><span class="compass-star">✦</span><span class="compass-s">S</span><span class="compass-e">E</span><span class="compass-w">W</span></div><div class="map-status" id="mapStatus">Swiss network reference points · Live location off</div></div><div class="map-legend"><span><i class="legend-dot covered"></i>${t("mapSwiss")}</span><span><i class="legend-dot user"></i>${t("location")}</span><span><i class="legend-dot future"></i>${t("planned")}</span></div></section>`;
+    panel.innerHTML = `<div class="map-topline"><div><p class="eyebrow">${t("map")}</p><h2>Explore with TEYUNAI</h2><p class="map-subtitle">${t("mapNote")}</p></div><span class="map-live"><i></i>${t("live")}</span></div><div class="map-stage"><div id="teyunaiMap" aria-label="${t("map")}"></div><button type="button" class="map-locate" id="mapLocate" aria-label="${t("location")}">⌖ <span>${t("location")}</span></button><div class="teyunai-compass" id="teyunaiCompass" aria-label="2D compass; north"><div class="compass-rose" id="compassRose"><span class="compass-n">N</span><span class="compass-star">✦</span><span class="compass-s">S</span><span class="compass-e">E</span><span class="compass-w">W</span></div><span class="compass-live-dot" id="compassLiveDot"></span></div><div class="map-status" id="mapStatus">Swiss network reference points · Live location off</div></div><div class="map-legend"><span><i class="legend-dot covered"></i>${t("mapSwiss")}</span><span><i class="legend-dot user"></i>${t("location")}</span><span><i class="legend-dot future"></i>${t("planned")}</span></div></section>`;
     formEl.after(panel);
   }
 
@@ -88,15 +110,21 @@
     const mapEl=$("#teyunaiMap");
     if(!window.L || !mapEl || mapEl.dataset.ready)return;
     mapEl.dataset.ready="1";
-    const map=L.map("teyunaiMap",{scrollWheelZoom:false,zoomControl:false}).setView([46.8,8.2],7);
+    const map=L.map("teyunaiMap",{scrollWheelZoom:false,zoomControl:false,preferCanvas:true}).setView([46.8,8.2],7);
+    const status=$("#mapStatus");
+    map.whenReady(()=>{ if(status) status.textContent="Map loaded · tap the location button to share your position"; });
+    map.on("tileerror",()=>{ if(status) status.textContent="Map tiles could not load. Check your connection or content-security settings."; });
     L.control.zoom({position:"bottomleft"}).addTo(map);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(map);
+    const tiles=L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'});
+    tiles.on("loading",()=>{if(status)status.textContent="Loading map…";});
+    tiles.on("load",()=>{if(status)status.textContent="Map loaded · Swiss reference locations shown";});
+    tiles.addTo(map);
     const cities=[["Genève",46.2044,6.1432],["Lausanne",46.5197,6.6323],["Zurich",47.3769,8.5417],["Berne",46.948,7.4474],["Bâle",47.5596,7.5886]];
     cities.forEach(([name,lat,lon])=>L.circleMarker([lat,lon],{radius:6,color:"#e3c68f",fillColor:"#cdb78e",fillOpacity:.95,weight:2}).addTo(map).bindPopup(`<strong>${name}</strong><br>${t("mapSwiss")}`));
 
     // Browser geolocation is requested only after an explicit tap. watchPosition updates the marker as the device moves.
     let userMarker=null, accuracyCircle=null, watchId=null, follow=true;
-    const status=$("#mapStatus"), locate=$("#mapLocate");
+    const locate=$("#mapLocate");
     const userIcon=L.divIcon({className:"",html:'<div class="user-location-pulse"><span></span></div>',iconSize:[28,28],iconAnchor:[14,14]});
     function startTracking(){
       if(!navigator.geolocation){if(status)status.textContent=t("locationDenied");return;}
@@ -119,12 +147,49 @@
       },{enableHighAccuracy:true,timeout:15000,maximumAge:5000});
     }
     locate?.addEventListener("click",startTracking);
+
+    // Live 2D compass: iOS requires permission to be requested from a user gesture.
+    const compass=$("#teyunaiCompass"), rose=$("#compassRose"), liveDot=$("#compassLiveDot");
+    let orientationStarted=false;
+    function applyHeading(degrees){
+      if(!Number.isFinite(degrees) || !rose) return;
+      rose.style.transform=`rotate(${-degrees}deg)`;
+      if(compass) compass.setAttribute("aria-label",`Live compass; heading ${Math.round(degrees)} degrees`);
+      if(liveDot) liveDot.classList.add("is-live");
+    }
+    function onOrientation(event){
+      if(typeof event.webkitCompassHeading==="number"){applyHeading(event.webkitCompassHeading);return;}
+      if(event.absolute && typeof event.alpha==="number") applyHeading((360-event.alpha)%360);
+    }
+    async function enableCompass(){
+      if(orientationStarted)return;
+      orientationStarted=true;
+      try{
+        if(typeof DeviceOrientationEvent!=="undefined" && typeof DeviceOrientationEvent.requestPermission==="function"){
+          const permission=await DeviceOrientationEvent.requestPermission();
+          if(permission!=="granted") throw new Error("permission");
+        }
+        window.addEventListener("deviceorientation",onOrientation,true);
+        window.addEventListener("deviceorientationabsolute",onOrientation,true);
+      }catch(_){
+        if(compass) compass.setAttribute("aria-label","Compass north indicator; live heading permission unavailable");
+      }
+    }
+    locate?.addEventListener("click",enableCompass);
+    compass?.addEventListener("click",enableCompass);
+    if(status && !navigator.geolocation) status.textContent="Location is not supported by this browser.";
+
     map.on("dragstart",()=>{follow=false;if(status)status.textContent="Map browsing · tap location to follow you";});
   }
   if($("#teyunaiMap")){
     const leaflet=document.createElement("link");leaflet.rel="stylesheet";leaflet.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";document.head.append(leaflet);
     if(window.L)initMap();
-    else {const script=document.createElement("script");script.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";script.onload=initMap;document.head.append(script);}
+    else {
+      const script=document.createElement("script");script.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.onload=initMap;
+      script.onerror=()=>{const status=$("#mapStatus");if(status)status.textContent="Map library blocked. The site security policy must allow unpkg.com."};
+      document.head.append(script);
+    }
   }
   // Re-apply translated labels when the existing language selector changes.
   

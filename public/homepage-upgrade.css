@@ -1,37 +1,30 @@
-
-/* TEYUNAI refined map + integrated clock */
-.teyunai-header-clock{display:inline-flex;align-items:center;gap:9px;margin-left:16px;padding:6px 11px;border:1px solid rgba(205,183,142,.55);border-radius:30px;background:linear-gradient(135deg,#10263e,#1d3b53);color:#f5f0e8;vertical-align:middle;white-space:nowrap}
-.mini-clock{width:34px;height:34px;position:relative;border:1.5px solid #cdb78e;border-radius:50%;background:radial-gradient(circle,#24445b,#10263e);box-shadow:inset 0 0 0 3px rgba(205,183,142,.18)}
-.mini-hand{position:absolute;left:50%;bottom:50%;width:2px;border-radius:3px;transform-origin:50% 100%;background:#f4e4bd}
-.mini-hour{height:9px}.mini-minute{height:13px;width:1.5px;background:#d6b77f}
-.mini-clock-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:8px;color:#e6d1a7}
-.clock-copy{display:flex;flex-direction:column;line-height:1.25}.clock-copy span{font-size:9px;color:#d7c49f;letter-spacing:.04em}.clock-copy strong{font:600 12px Georgia,serif;letter-spacing:1px;color:#fff}
-.teyunai-map-panel{margin:22px auto 30px;padding:0!important;border:1px solid rgba(205,183,142,.35);border-radius:18px;overflow:hidden;background:#10263e;box-shadow:0 18px 45px rgba(8,24,39,.2);color:#f5f0e8}
-.map-topline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px 13px;background:linear-gradient(110deg,#10263e,#18364c)}
-.map-topline .eyebrow{margin:0 0 4px;color:#d5bd91;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-.map-topline h2{margin:0;color:#f8f2e8;font:500 22px Georgia,serif}
-.map-subtitle{margin:5px 0 0;color:#c1cbd0;font-size:11px;line-height:1.45}
-.map-live{display:flex;align-items:center;gap:7px;color:#e4d2ad;font-size:10px;white-space:nowrap}
-.map-live i{width:7px;height:7px;border-radius:50%;background:#80c49c;box-shadow:0 0 0 4px #80c49c22}
-.map-stage{position:relative}
-#teyunaiMap{height:390px;width:100%;border:0;border-radius:0;background:#202a2d;z-index:1}
-#teyunaiMap .leaflet-tile{filter:saturate(.82) contrast(1.04)}
-#teyunaiMap .leaflet-control-attribution{background:rgba(10,25,38,.72);color:#c7d0d4}
-#teyunaiMap .leaflet-control-attribution a{color:#e0c58f}
-#teyunaiMap .leaflet-bar a{background:#142d42;color:#e8d3a9;border-color:#536575}
-.map-locate{position:absolute;z-index:500;left:16px;top:16px;display:flex;align-items:center;gap:8px;border:1px solid #d7bd8d;border-radius:30px;padding:10px 14px;background:rgba(16,38,62,.94);color:#f5e7c9;font-size:11px;box-shadow:0 4px 16px #0005;cursor:pointer}
-.map-locate.is-active{background:#244c3c;border-color:#d7bd8d}
-.map-locate:disabled{opacity:.65}
-.teyunai-compass{position:absolute;z-index:500;right:17px;top:16px;width:64px;height:64px;border-radius:50%;border:1px solid #d5bd91;background:rgba(12,31,48,.88);box-shadow:0 4px 18px #0006;color:#e8d3a9;display:grid;place-items:center;font:10px Georgia,serif}
-.teyunai-compass:before{content:"";position:absolute;width:1px;height:43px;background:#bca477;opacity:.7}
-.teyunai-compass:after{content:"";position:absolute;width:43px;height:1px;background:#bca477;opacity:.7}
-.compass-n{position:absolute;top:5px;color:#fff0d0;font-weight:bold}.compass-s{position:absolute;bottom:5px}.compass-e{position:absolute;right:6px}.compass-w{position:absolute;left:6px}.compass-star{z-index:1;font-size:24px;color:#d8b66f;text-shadow:0 0 9px #e5c88c}
-.map-status{position:absolute;z-index:500;left:16px;bottom:14px;max-width:calc(100% - 120px);padding:7px 10px;border:1px solid #ffffff24;border-radius:7px;background:rgba(12,30,45,.84);color:#f1e5cd;font-size:10px;backdrop-filter:blur(8px)}
-.map-legend{display:flex;flex-wrap:wrap;gap:18px;padding:12px 18px;background:#10263e;color:#d4dce0;font-size:10px}
-.map-legend span{display:flex;align-items:center;gap:7px}.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}.legend-dot.covered{background:#d6b77f}.legend-dot.user{background:#2588d8;box-shadow:0 0 0 3px #2588d833}.legend-dot.future{border:1px solid #9aa6ad}
-.user-location-pulse{width:28px;height:28px;border-radius:50%;background:#1688e8aa;display:grid;place-items:center;box-shadow:0 0 0 8px #1688e833}
-.user-location-pulse span{width:12px;height:12px;border:2px solid white;border-radius:50%;background:#1688e8;box-shadow:0 1px 5px #0008}
-.trip-type-field{grid-column:1/-1}.multi-stops{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;align-items:end}.multi-stops[hidden]{display:none}.multi-stops>.field{flex:1 1 190px}.extra-destination .input-with-icon button{border:0;background:transparent;color:#8b7048;font-size:20px}.secondary-action{border:1px solid var(--gold);border-radius:8px;background:#faf8f4;color:#765f3d;padding:9px 12px;font-size:11px;cursor:pointer}
-.teyunai-signature{width:min(1180px,calc(100% - 48px));margin:0 auto 28px;border:1px solid var(--gold);border-radius:14px;overflow:hidden;background:var(--navy)}
-.teyunai-signature img{display:block;width:100%;height:auto;object-fit:cover}
-@media(max-width:720px){.teyunai-header-clock{margin:8px 0 0 8px;padding:5px 8px}.mini-clock{width:30px;height:30px}.teyunai-map-panel{width:calc(100% - 24px);margin:16px auto 24px}.map-topline{padding:15px}.map-topline h2{font-size:19px}#teyunaiMap{height:330px}.teyunai-compass{width:56px;height:56px;right:12px;top:12px}.map-locate{left:12px;top:12px;padding:9px 11px}.map-status{left:12px;bottom:12px;font-size:9px}.map-legend{gap:10px;padding:10px 12px;font-size:9px}.trip-type-field{grid-column:1/-1}.teyunai-signature{width:calc(100% - 28px)}}
+/* TEYUNAI v3 — live compass, top-right discovery menu, circular signature */
+header{position:relative}
+.teyunai-discover-menu{position:absolute;right:18px;top:12px;z-index:1200}
+.discover-trigger{display:flex;align-items:center;gap:9px;border:1px solid rgba(205,183,142,.78);border-radius:28px;padding:10px 15px;background:#10263e;color:#f5f0e8;font:600 12px Georgia,serif;letter-spacing:.04em;cursor:pointer;box-shadow:0 6px 18px #07172733}
+.discover-trigger>span:first-child{font-size:16px;color:#d7bd8c}
+.discover-chevron{color:#d7bd8c}
+.discover-panel{position:absolute;right:0;top:calc(100% + 9px);width:min(290px,calc(100vw - 32px));max-height:min(65vh,430px);overflow-y:auto;overscroll-behavior:contain;border:1px solid rgba(205,183,142,.58);border-radius:15px;background:rgba(13,34,52,.98);box-shadow:0 18px 42px #07172766;padding:8px;backdrop-filter:blur(14px)}
+.discover-panel[hidden]{display:none}
+.discover-panel a{display:block;padding:13px 14px;border-radius:9px;color:#f4eddf;text-decoration:none;font-size:12px;border-bottom:1px solid #ffffff12}
+.discover-panel a:last-child{border-bottom:0}
+.discover-panel a:hover,.discover-panel a:focus{background:#ffffff12;color:#e6c994;outline:none}
+.teyunai-compass{cursor:pointer;overflow:hidden}
+.compass-rose{position:absolute;inset:0;border-radius:50%;transition:transform .12s linear;will-change:transform}
+.compass-n,.compass-s,.compass-e,.compass-w,.compass-star{position:absolute;z-index:2}
+.compass-n{top:5px;left:50%;transform:translateX(-50%);color:#fff0d0;font-weight:bold}
+.compass-s{bottom:5px;left:50%;transform:translateX(-50%)}
+.compass-e{right:6px;top:50%;transform:translateY(-50%)}
+.compass-w{left:6px;top:50%;transform:translateY(-50%)}
+.compass-star{left:50%;top:50%;transform:translate(-50%,-50%);font-size:25px;color:#d8b66f;text-shadow:0 0 9px #e5c88c}
+.compass-live-dot{position:absolute;right:8px;bottom:8px;width:6px;height:6px;border-radius:50%;background:#8d969c;z-index:3}
+.compass-live-dot.is-live{background:#8cc9a2;box-shadow:0 0 0 3px #8cc9a233,0 0 10px #8cc9a2}
+.teyunai-signature-circle{width:min(760px,94vw);aspect-ratio:1/1;margin:24px auto 38px;border-radius:50%;border:2px solid #cdb78e;overflow:hidden;background:#10263e;box-shadow:0 18px 50px #10263e30;display:flex;align-items:center;justify-content:center}
+.teyunai-signature-circle img{display:block;width:100%;height:100%;object-fit:cover;object-position:center center}
+#teyunaiMap{min-height:320px}
+@media(max-width:720px){
+ .teyunai-discover-menu{top:8px;right:10px}
+ .discover-trigger{padding:8px 11px;font-size:11px}
+ .teyunai-header-clock{margin-top:8px}
+ .teyunai-signature-circle{width:min(94vw,620px);margin:18px auto 28px}
+}
