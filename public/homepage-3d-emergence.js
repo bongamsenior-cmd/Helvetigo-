@@ -1,5 +1,5 @@
 
-/* TEYUNAI — Native scroll-driven cinematic artwork */
+/* TEYUNAI — Responsive cinematic artwork */
 (() => {
   function initTeyunaiArtwork() {
     const footer = document.querySelector("footer.footer");
@@ -56,8 +56,11 @@
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center 42%;
+
+        /* Preserve the complete image */
+        object-fit: contain;
+        object-position: center center;
+
         transform: translate3d(0, 0, 0) scale(1);
         backface-visibility: hidden;
       }
@@ -90,27 +93,22 @@
 
         @keyframes teyunai-art-fade {
           from { opacity: 0; }
-          to   { opacity: 1; }
+          to { opacity: 1; }
         }
 
         @keyframes teyunai-art-rise {
           from {
-            transform:
-              translate3d(0, 155px, 0)
-              scale(.93);
+            transform: translate3d(0, 155px, 0) scale(.96);
           }
-
           to {
-            transform:
-              translate3d(0, 0, 0)
-              scale(1);
+            transform: translate3d(0, 0, 0) scale(1);
           }
         }
       }
 
-      /* Smaller movement on mobile */
       @media (max-width: 760px) {
         footer.footer.teyunai-art-footer .teyunai-artwork-image {
+          object-fit: contain;
           object-position: center center;
         }
 
@@ -123,21 +121,24 @@
 
           @keyframes teyunai-art-rise-mobile {
             from {
-              transform:
-                translate3d(0, 115px, 0)
-                scale(.94);
+              transform: translate3d(0, 115px, 0) scale(.97);
             }
-
             to {
-              transform:
-                translate3d(0, 0, 0)
-                scale(1);
+              transform: translate3d(0, 0, 0) scale(1);
             }
           }
         }
       }
 
-      /* Fallback for browsers without scroll-driven animation */
+      /* Landscape phones and tablets */
+      @media (orientation: landscape) and (max-height: 600px) {
+        footer.footer.teyunai-art-footer .teyunai-artwork-image {
+          object-fit: contain;
+          object-position: center center;
+        }
+      }
+
+      /* Fallback for browsers without native scroll animation */
       @supports not (animation-timeline: view()) {
         footer.footer.teyunai-art-footer .teyunai-artwork-layer {
           opacity: 0;
@@ -180,11 +181,11 @@
       return;
     }
 
-    const supportsNativeScroll =
+    const nativeSupport =
       CSS.supports("animation-timeline: view()") &&
       CSS.supports("animation-range: cover 0% cover 100%");
 
-    if (supportsNativeScroll) return;
+    if (nativeSupport) return;
 
     if (!("IntersectionObserver" in window)) {
       footer.classList.add("teyunai-art-visible");
@@ -198,9 +199,7 @@
           entry.isIntersecting
         );
       });
-    }, {
-      threshold: 0.05
-    });
+    }, { threshold: 0.05 });
 
     observer.observe(artwork);
   }
