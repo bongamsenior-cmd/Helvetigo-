@@ -735,7 +735,7 @@ footer.footer.teyunai-art-footer .teyunai-clock {
 
 @media (max-width: 760px) {
   .teyunai-clock {
-    top: -40px !important;
+    top: -80px !important;
     right: 24px !important;
     width: 60px !important;
     height: 60px !important;
