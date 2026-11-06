@@ -1,0 +1,87 @@
+/* TEYUNAI clean homepage rebuild — scoped overrides only */
+:root { --ty-navy:#10263E; --ty-gold:#CDB78E; --ty-ivory:#F7F5F0; --ty-ink:#1C2D3A; }
+
+/* Header: one language selector and one icon-only hamburger from index.html */
+.topbar { position:relative; z-index:1000; }
+.topbar .nav { display:flex; align-items:center; justify-content:space-between; gap:18px; min-width:0; }
+.topbar .brand-tagline { display:none!important; }
+.topbar .nav-actions { display:flex!important; align-items:center; gap:12px; margin-left:auto; }
+.topbar .language-selector { position:relative!important; display:block!important; flex:0 1 auto; min-width:0; z-index:1100; }
+.topbar .language-toggle { display:flex!important; align-items:center; justify-content:center; gap:8px; white-space:nowrap; }
+.topbar .language-menu { position:absolute!important; top:calc(100% + 10px)!important; right:0!important; left:auto!important; z-index:1200!important; min-width:190px; max-height:min(70vh,420px); overflow-y:auto; background:#fff; border:1px solid #e7e0d5; border-radius:16px; box-shadow:0 14px 36px #10263e26; padding:8px; }
+.topbar .language-menu[hidden] { display:none!important; }
+.topbar .language-menu button { display:block; width:100%; text-align:left; padding:11px 13px; border:0; border-radius:9px; background:transparent; color:var(--ty-ink); }
+.topbar .language-menu button:hover,.topbar .language-menu button:focus-visible { background:#f4efe6; }
+.topbar .menu-toggle { display:inline-flex!important; align-items:center; justify-content:center; width:44px; height:44px; min-width:44px; padding:0; border:1px solid var(--ty-gold); border-radius:50%; background:transparent; color:var(--ty-gold); font-size:0!important; line-height:1; }
+.topbar .menu-toggle::before { content:""; width:19px; height:14px; display:block; background:linear-gradient(var(--ty-gold),var(--ty-gold)) 0 0/19px 2px no-repeat,linear-gradient(var(--ty-gold),var(--ty-gold)) 0 6px/19px 2px no-repeat,linear-gradient(var(--ty-gold),var(--ty-gold)) 0 12px/19px 2px no-repeat; }
+.topbar .main-nav { display:none!important; position:absolute!important; top:100%; right:max(16px,calc((100vw - 1200px)/2)); z-index:1050; min-width:220px; padding:12px; border:1px solid #d9c9a8; border-radius:16px; background:var(--ty-navy); box-shadow:0 16px 35px #07192b55; }
+.topbar .main-nav.open { display:flex!important; flex-direction:column; gap:0; }
+.topbar .main-nav a { display:block; padding:13px 14px; color:#fff; text-decoration:none; border-radius:9px; }
+.topbar .main-nav a:hover,.topbar .main-nav a:focus-visible { background:#ffffff18; }
+@media(max-width:720px) {
+  .topbar .nav { flex-wrap:nowrap!important; gap:8px; }
+  .topbar .brand { flex:0 1 auto; min-width:0; }
+  .topbar .brand-name { font-size:clamp(20px,6vw,28px); white-space:nowrap; }
+  .topbar .nav-actions { gap:8px; flex:0 0 auto; }
+  .topbar .language-toggle { padding:8px 9px; font-size:12px; }
+  .topbar .language-menu { right:0!important; left:auto!important; }
+  .topbar .menu-toggle { width:40px; height:40px; min-width:40px; }
+}
+
+/* Progressive search: simple origin/destination first, options after both are filled */
+.search-panel { align-items:end; }
+.search-panel .field[hidden],.search-panel button[hidden] { display:none!important; }
+.teyunai-current-location { display:flex; align-items:center; gap:9px; margin-top:10px; padding:5px 2px; border:0; background:transparent; color:#35536a; font:inherit; font-size:14px; cursor:pointer; }
+.teyunai-current-location span:first-child { color:var(--ty-gold); font-size:20px; }
+.teyunai-current-location:disabled { opacity:.6; cursor:wait; }
+.search-panel.teyunai-search-expanded { row-gap:14px; }
+
+/* Editorial image cards for the four real transport categories */
+.provider-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.provider-list .provider { display:flex; flex-direction:column; align-items:stretch; min-width:0; overflow:hidden; padding:0!important; border:1px solid #e5dfd4; border-radius:18px; background:#fff; }
+.provider-list .provider-photo { display:block; width:100%; height:150px; object-fit:cover; object-position:center; background:#e8e5df; }
+.provider-list .provider-main { display:flex; flex-direction:column; gap:7px; padding:16px 17px 8px; min-width:0; }
+.provider-list .provider-main strong { color:var(--ty-ink); font-size:17px; }
+.provider-list .provider-main span,.provider-list .provider-main small { overflow-wrap:anywhere; }
+.provider-list .provider-action { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:10px 17px 17px; margin-top:auto; }
+.provider-list .provider-logo { display:none!important; }
+@media(max-width:720px) {
+  .provider-list { grid-template-columns:1fr; }
+  .provider-list .provider-photo { height:165px; }
+}
+
+/* Goddess artwork fills the existing footer background, not a separate section */
+footer.footer.teyunai-art-footer {
+  position:relative!important;
+  isolation:isolate;
+  overflow:visible!important;
+  margin-top:90px;
+  padding-top:clamp(90px,12vw,145px)!important;
+  background-color:var(--ty-navy)!important;
+  background-image:linear-gradient(180deg,rgba(8,24,42,.26),rgba(8,24,42,.68)),url("./assets/teyunai-goddess-sisters-travel.png")!important;
+  background-position:center 43%!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  color:#fff!important;
+}
+footer.footer.teyunai-art-footer::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(7,22,39,.3),transparent 65%); pointer-events:none; }
+footer.footer.teyunai-art-footer .footer-top,footer.footer.teyunai-art-footer .footer-bottom { position:relative; z-index:1; }
+footer.footer.teyunai-art-footer .footer-bottom { border-color:#ffffff35!important; }
+footer.footer.teyunai-art-footer a,footer.footer.teyunai-art-footer p,footer.footer.teyunai-art-footer span { color:#fff; }
+footer.footer.teyunai-art-footer .brand-mark { color:var(--ty-gold); }
+
+/* SBB-inspired clock: no gold bezel, integrated across the footer's upper edge */
+.teyunai-sbb-clock { position:absolute; z-index:3; left:28%; top:-62px; width:116px; height:116px; transform:translateX(-50%); padding:0; border:0; border-radius:50%; background:transparent; box-shadow:none; pointer-events:none; }
+.sbb-face { position:relative; width:100%; height:100%; border-radius:50%; overflow:hidden; background:#fff; border:0; box-shadow:0 5px 18px #07192b44; }
+.sbb-marks { position:absolute; inset:0; }
+.sbb-marks i { position:absolute; left:50%; top:3%; width:2px; height:7%; background:#111; transform-origin:50% 671%; }
+.sbb-marks i.major { top:2%; width:4px; height:12%; }
+.sbb-hand { position:absolute; left:50%; bottom:50%; display:block; border-radius:3px; transform-origin:50% 100%; }
+.sbb-hour { z-index:3; width:7px; height:25%; background:#111; }
+.sbb-minute { z-index:4; width:5px; height:36%; background:#111; }
+.sbb-second { z-index:5; width:2px; height:42%; background:#e21c2a; }
+.sbb-pin { position:absolute; z-index:6; left:50%; top:50%; width:11px; height:11px; transform:translate(-50%,-50%); border-radius:50%; background:#e21c2a; }
+@media(max-width:720px) {
+  footer.footer.teyunai-art-footer { margin-top:76px; padding-top:95px!important; background-position:center center!important; }
+  .teyunai-sbb-clock { left:28%; top:-54px; width:104px; height:104px; }
+}
