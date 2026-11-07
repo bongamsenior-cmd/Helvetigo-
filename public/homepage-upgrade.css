@@ -741,4 +741,17 @@ footer.footer.teyunai-art-footer .teyunai-clock {
     height: 60px !important;
   }
 }
+/* TEYUNAI — Remove empty navy gap above footer artwork */
+footer.footer.teyunai-art-footer {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  background: transparent !important;
+}
 
+footer.footer.teyunai-art-footer::after {
+  top: 0 !important;
+  inset: 0 !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
