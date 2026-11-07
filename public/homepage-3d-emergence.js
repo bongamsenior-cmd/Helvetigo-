@@ -1,5 +1,5 @@
 
-/* TEYUNAI — Responsive cinematic artwork */
+/* TEYUNAI — Final responsive cinematic artwork */
 (() => {
   function initTeyunaiArtwork() {
     const footer = document.querySelector("footer.footer");
@@ -7,28 +7,32 @@
 
     footer.classList.add("teyunai-art-footer");
 
-    let artwork = footer.querySelector(".teyunai-artwork-layer");
+    /* Remove any previous artwork layer before rebuilding it. */
+    const previous = footer.querySelector(".teyunai-artwork-layer");
+    if (previous) previous.remove();
 
-    if (!artwork) {
-      artwork = document.createElement("div");
-      artwork.className = "teyunai-artwork-layer";
-      artwork.setAttribute("aria-hidden", "true");
+    /* Create an independent artwork section in normal document flow. */
+    const artwork = document.createElement("div");
+    artwork.className = "teyunai-artwork-layer";
+    artwork.setAttribute("aria-hidden", "true");
 
-      const image = document.createElement("img");
-      image.className = "teyunai-artwork-image";
-      image.src = "./assets/teyunai-goddess-sisters-travel.png";
-      image.alt = "";
-      image.draggable = false;
+    const image = document.createElement("img");
+    image.className = "teyunai-artwork-image";
+    image.src = "./assets/teyunai-goddess-sisters-travel.png";
+    image.alt = "";
+    image.draggable = false;
+    image.decoding = "async";
 
-      artwork.appendChild(image);
-      footer.prepend(artwork);
-    }
+    artwork.appendChild(image);
 
-    let style = document.getElementById("teyunai-emergence-style");
+    /* Place artwork before footer content, without absolute positioning. */
+    footer.prepend(artwork);
+
+    let style = document.getElementById("teyunai-final-artwork-style");
 
     if (!style) {
       style = document.createElement("style");
-      style.id = "teyunai-emergence-style";
+      style.id = "teyunai-final-artwork-style";
       document.head.appendChild(style);
     }
 
@@ -37,32 +41,80 @@
         position: relative !important;
         isolation: isolate;
         overflow: visible !important;
+        padding-top: 0 !important;
+        background-color: #10263E !important;
         background-image: none !important;
       }
 
-      footer.footer.teyunai-art-footer .teyunai-artwork-layer {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
+      /* Independent image section: natural height and full width. */
+      footer.footer.teyunai-art-footer > .teyunai-artwork-layer {
+        display: block;
+        position: relative;
+        z-index: 1;
         width: 100%;
-        height: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        background: transparent;
         pointer-events: none;
-        opacity: 1;
+
+        opacity: 0;
+        transform: translate3d(0, 65px, 0);
+
+        transition:
+          opacity 1100ms ease,
+          transform 1250ms cubic-bezier(.22,.61,.36,1);
       }
 
-      footer.footer.teyunai-art-footer .teyunai-artwork-image {
+      footer.footer.teyunai-art-footer
+      .teyunai-artwork-image {
         display: block;
+        position: relative;
+        width: 100%;
+        height: auto;
+        max-width: none;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+
+        object-fit: unset;
+        object-position: center;
+
+        transform: none;
+        backface-visibility: hidden;
+      }
+
+      /* Soft edges that blend into the navy footer. */
+      footer.footer.teyunai-art-footer
+      .teyunai-artwork-layer::after {
+        content: "";
         position: absolute;
         inset: 0;
-        width: 100%;
-        height: 100%;
+        pointer-events: none;
 
-        /* Preserve the complete image */
-        object-fit: contain;
-        object-position: center center;
+        background:
+          linear-gradient(
+            to bottom,
+            #10263E 0%,
+            transparent 10%,
+            transparent 86%,
+            #10263E 100%
+          ),
+          linear-gradient(
+            to right,
+            #10263E 0%,
+            transparent 3%,
+            transparent 97%,
+            #10263E 100%
+          );
+      }
 
-        transform: translate3d(0, 0, 0) scale(1);
-        backface-visibility: hidden;
+      /* Reveal and reverse when entering or leaving the viewport. */
+      footer.footer.teyunai-art-footer.teyunai-art-visible
+      > .teyunai-artwork-layer {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
       }
 
       footer.footer.teyunai-art-footer >
@@ -71,122 +123,68 @@
         z-index: 2;
       }
 
+      /* Preserve the existing clock position and appearance. */
       footer.footer.teyunai-art-footer .teyunai-clock {
         z-index: 50 !important;
       }
 
-      /* Native scroll-driven animation */
-      @supports (animation-timeline: view()) and
-                (animation-range: cover 0% cover 100%) {
-
-        footer.footer.teyunai-art-footer .teyunai-artwork-layer {
-          animation: teyunai-art-fade linear both;
-          animation-timeline: view(block);
-          animation-range: cover 0% cover 100%;
-        }
-
-        footer.footer.teyunai-art-footer .teyunai-artwork-image {
-          animation: teyunai-art-rise linear both;
-          animation-timeline: view(block);
-          animation-range: cover 0% cover 100%;
-        }
-
-        @keyframes teyunai-art-fade {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes teyunai-art-rise {
-          from {
-            transform: translate3d(0, 155px, 0) scale(.96);
-          }
-          to {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-        }
-      }
-
-      @media (max-width: 760px) {
-        footer.footer.teyunai-art-footer .teyunai-artwork-image {
-          object-fit: contain;
-          object-position: center center;
-        }
-
-        @supports (animation-timeline: view()) and
-                  (animation-range: cover 0% cover 100%) {
-
-          footer.footer.teyunai-art-footer .teyunai-artwork-image {
-            animation-name: teyunai-art-rise-mobile;
-          }
-
-          @keyframes teyunai-art-rise-mobile {
-            from {
-              transform: translate3d(0, 115px, 0) scale(.97);
-            }
-            to {
-              transform: translate3d(0, 0, 0) scale(1);
-            }
-          }
-        }
-      }
-
-      /* Landscape phones and tablets */
-      @media (orientation: landscape) and (max-height: 600px) {
-        footer.footer.teyunai-art-footer .teyunai-artwork-image {
-          object-fit: contain;
-          object-position: center center;
-        }
-      }
-
-      /* Fallback for browsers without native scroll animation */
-      @supports not (animation-timeline: view()) {
-        footer.footer.teyunai-art-footer .teyunai-artwork-layer {
-          opacity: 0;
-          transition: opacity 700ms ease;
-        }
-
-        footer.footer.teyunai-art-footer .teyunai-artwork-image {
-          transform: translate3d(0, 65px, 0) scale(.97);
-          transition: transform 900ms cubic-bezier(.22,.61,.36,1);
-        }
-
-        footer.footer.teyunai-art-footer.teyunai-art-visible
+      /* Mobile portrait */
+      @media (max-width: 760px) and (orientation: portrait) {
+        footer.footer.teyunai-art-footer
         .teyunai-artwork-layer {
-          opacity: 1;
+          transform: translate3d(0, 45px, 0);
+          transition:
+            opacity 950ms ease,
+            transform 1100ms cubic-bezier(.22,.61,.36,1);
         }
 
         footer.footer.teyunai-art-footer.teyunai-art-visible
+        > .teyunai-artwork-layer {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      /* Mobile landscape: preserve the entire original image. */
+      @media (max-width: 900px) and (orientation: landscape) {
+        footer.footer.teyunai-art-footer
+        .teyunai-artwork-layer {
+          width: 100%;
+          height: auto;
+          transform: translate3d(0, 35px, 0);
+        }
+
+        footer.footer.teyunai-art-footer
         .teyunai-artwork-image {
-          transform: translate3d(0, 0, 0) scale(1);
+          width: 100%;
+          height: auto;
+          object-fit: unset;
+        }
+
+        footer.footer.teyunai-art-footer.teyunai-art-visible
+        > .teyunai-artwork-layer {
+          transform: translate3d(0, 0, 0);
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        footer.footer.teyunai-art-footer .teyunai-artwork-layer {
-          animation: none !important;
+        footer.footer.teyunai-art-footer
+        .teyunai-artwork-layer {
           opacity: 1 !important;
-          transition: none !important;
-        }
-
-        footer.footer.teyunai-art-footer .teyunai-artwork-image {
-          animation: none !important;
           transform: none !important;
           transition: none !important;
         }
       }
     `;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    /* Respect accessibility settings. */
+    if (window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches) {
       footer.classList.add("teyunai-art-visible");
       return;
     }
 
-    const nativeSupport =
-      CSS.supports("animation-timeline: view()") &&
-      CSS.supports("animation-range: cover 0% cover 100%");
-
-    if (nativeSupport) return;
-
+    /* Replay the reveal when the artwork enters and leaves view. */
     if (!("IntersectionObserver" in window)) {
       footer.classList.add("teyunai-art-visible");
       return;
@@ -199,7 +197,10 @@
           entry.isIntersecting
         );
       });
-    }, { threshold: 0.05 });
+    }, {
+      threshold: 0.04,
+      rootMargin: "0px 0px -5% 0px"
+    });
 
     observer.observe(artwork);
   }
